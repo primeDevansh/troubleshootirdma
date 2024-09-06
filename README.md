@@ -1,8 +1,12 @@
 # Troubleshoot `irdma`
 
-> This repository is authored by [Animesh Trivedi](https://github.com/animeshtrivedi/rdma-example.git). It would've been easy to just fork Animesh's [repo](https://github.com/animeshtrivedi/rdma-example.git) but since I have an existing fork of that repository ([benchmark_rdma-example](https://github.com/primeDevansh/benchmark_rdma-example.git)), I was only left with this way of modifying some code in it.
+A repository to store code that would help in demystifying `irdma` dynamic-debug messages.
 
-> IMPORTANT NOTE: This repo contains code which might not be useful for everyone; intended for troubleshooting, rather understanding `irdma` dynamic debug logs.
+I will be using [Animesh Trivedi](https://github.com/animeshtrivedi)'s [rdma-example](https://github.com/animeshtrivedi/rdma-example.git) repository to write some troubleshooting code for my RoCEv2 setup. I am using Intel E810 RNIC which runs RDMA through `irdma` driver.
+
+> It would've been easy to just fork Animesh's [repo](https://github.com/animeshtrivedi/rdma-example.git) but since I already have a fork of that repository ([benchmark_rdma-example](https://github.com/primeDevansh/benchmark_rdma-example.git)), I was only left with this way of adding personal touches to it.
+
+> IMPORTANT NOTE: This repo contains code which might not be useful for everyone; intended for troubleshooting, rather understanding `irdma` dynamic debug logs. Running this code will print a lot of statements on `stdout`.
 
 * Make sure to enable dynamic debug feature of irdma before starting out
 
