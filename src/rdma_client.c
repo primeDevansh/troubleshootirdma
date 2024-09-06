@@ -460,6 +460,9 @@ void usage() {
 	exit(1);
 }
 
+//Custom functions declared for irdma troubleshooting by Devansh
+void dbg(char*);
+
 int main(int argc, char **argv) {
 	struct sockaddr_in server_sockaddr;
 	int ret, option;
@@ -513,37 +516,51 @@ int main(int argc, char **argv) {
 	if (src == NULL) {
 		printf("Please provide a string to copy \n");
 		usage();
-       	}
+    }
+
+	dbg("From main(); Starting RDMA client - to allocate basic RDMA client-side connection resources.");
 	ret = client_prepare_connection(&server_sockaddr);
 	if (ret) { 
 		rdma_error("Failed to setup client connection , ret = %d \n", ret);
 		return ret;
-	 }
+	}
+
+	dbg("From main(); About to pre-post receive buffer before calling rdma_connect().");
 	ret = client_pre_post_recv_buffer(); 
 	if (ret) { 
 		rdma_error("Failed to setup client connection , ret = %d \n", ret);
 		return ret;
 	}
+
+	dbg("From main(); About to connect to RDMA server.");
 	ret = client_connect_to_server();
 	if (ret) { 
 		rdma_error("Failed to setup client connection , ret = %d \n", ret);
 		return ret;
 	}
+
+	dbg("From main(); About to exchange buffer metadata with the server");
 	ret = client_xchange_metadata_with_server();
 	if (ret) {
 		rdma_error("Failed to setup client connection , ret = %d \n", ret);
 		return ret;
 	}
+
+	dbg("From main(); About to prepare memory buffers for RDMA operation.");
 	ret = client_remote_memory_ops();
 	if (ret) {
 		rdma_error("Failed to finish remote memory ops, ret = %d \n", ret);
 		return ret;
 	}
+
+	dbg("From main(); About to check data consistency.");
 	if (check_src_dst()) {
 		rdma_error("src and dst buffers do not match \n");
 	} else {
 		printf("...\nSUCCESS, source and destination buffers match \n");
 	}
+
+	dbg("From main(); About to disconnect from RDMA server and initiate resource cleanup.");
 	ret = client_disconnect_and_clean();
 	if (ret) {
 		rdma_error("Failed to cleanly disconnect and clean up resources \n");
@@ -551,3 +568,10 @@ int main(int argc, char **argv) {
 	return ret;
 }
 
+//Custom functions defined for irdma troubleshooting by Devansh
+
+void dbg(char *s) {
+	printf("%s -- Press Enter to continue", s);
+	getc(stdin);
+	return;
+}

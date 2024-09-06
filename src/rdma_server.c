@@ -429,6 +429,9 @@ void usage()
 	exit(1);
 }
 
+//Custom functions declared for irdma troubleshooting by Devansh
+void dbg(char*);
+
 int main(int argc, char **argv) 
 {
 	int ret, option;
@@ -459,31 +462,49 @@ int main(int argc, char **argv)
 	if(!server_sockaddr.sin_port) {
 		/* If still zero, that mean no port info provided */
 		server_sockaddr.sin_port = htons(DEFAULT_RDMA_PORT); /* use default port */
-	 }
+	}
+
+	dbg("From main(); Starting RDMA server - to allocate basic RDMA connection resources.");
 	ret = start_rdma_server(&server_sockaddr);
 	if (ret) {
 		rdma_error("RDMA server failed to start cleanly, ret = %d \n", ret);
 		return ret;
 	}
+
+	dbg("From main(); Setting up client resources; to prepare client connection before we accept it.");
 	ret = setup_client_resources();
 	if (ret) { 
 		rdma_error("Failed to setup client resources, ret = %d \n", ret);
 		return ret;
 	}
+
+	dbg("From main(); About to accept client connection by pre-posting a receive buffer.");
 	ret = accept_client_connection();
 	if (ret) {
 		rdma_error("Failed to handle client cleanly, ret = %d \n", ret);
 		return ret;
 	}
+
+	dbg("From main(); About to send server side buffer metadata to CONNECTED client.");
 	ret = send_server_metadata_to_client();
 	if (ret) {
 		rdma_error("Failed to send server metadata to the client, ret = %d \n", ret);
 		return ret;
 	}
+
+	dbg("From main(); Ready for disconnect and cleanup - this is server side logic;\nServer passively waits for client to call rdma_disconnect.");
 	ret = disconnect_and_cleanup();
 	if (ret) { 
 		rdma_error("Failed to clean up resources properly, ret = %d \n", ret);
 		return ret;
 	}
 	return 0;
+}
+
+//Custom functions defined for irdma troubleshooting by Devansh
+
+void dbg(char *s) {
+	printf("%s -- Press Enter to continue", s);
+	getc(stdin);
+	return;
 }
