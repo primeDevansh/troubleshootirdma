@@ -443,7 +443,9 @@ int main(int argc, char **argv) {
 	else
 		printf("Custom debugging ON\n\n");
 
-	dbg("Server-side program begins.");
+	//to dissolve extra input of \n from stdin
+	dbg("");
+	
 	int ret, option;
 	struct sockaddr_in server_sockaddr;
 	bzero(&server_sockaddr, sizeof server_sockaddr);

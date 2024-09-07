@@ -473,7 +473,9 @@ int main(int argc, char **argv) {
 	else
 		printf("Custom debugging ON\n\n");
 
-	dbg("Client-side code begins.");
+	//to dissolve extra input of \n from stdin
+	dbg("");
+	
 	struct sockaddr_in server_sockaddr;
 	int ret, option;
 	bzero(&server_sockaddr, sizeof server_sockaddr);
