@@ -579,7 +579,7 @@ int main(int argc, char **argv) {
 
 //Custom functions defined for irdma troubleshooting by Devansh
 
-void dbg(char *s, int dbg_true) {
+void dbg(char *s) {
 	if(dbg_true) {
 		printf("%s -- Press Enter to continue", s);
 		getc(stdin);
