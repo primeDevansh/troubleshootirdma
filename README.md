@@ -24,9 +24,10 @@ sudo modprobe irdma dyndbg='+p'
 
 ```C
 void dbg(char *s) {
+	char ch;
 	if(dbg_true) {
 		printf("\033[0;93;43m%s -- Press Enter to continue\033[0m", s);
-		getc(stdin);
+		scanf(" %c", &ch);
 	}
 	else
 		return;
