@@ -24,11 +24,23 @@ sudo modprobe irdma dyndbg='+p'
 
 ```C
 void dbg(char *s) {
-  printf("%s -- Press Enter to continue", s);
-  getc(stdin);
-  return;
+	if(dbg_true) {
+		printf("%s -- Press Enter to continue", s);
+		getc(stdin);
+	}
+	else
+		return;
 }
 ```
 
-> This function takes a string as input; outputs it on stdout and does not proceed further before asking from user.
+> This function takes a string as input; outputs it on stdout and does not proceed further before asking from user. All this only done if custom debugging is turned ON by providing a non-zero integer at the start of the program.
 
+2. Tracing `dmesg` logs
+
+```shell
+# On Node 1
+sudo dmesg -TW | grep irdma
+```
+
+> -T used for getting timestamp
+> -W used to show only new messages
