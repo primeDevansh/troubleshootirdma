@@ -437,7 +437,7 @@ void usage()
 
 int main(int argc, char **argv) {
 	printf("Turn on custom debugging? 0/1: ");
-	scanf("%d", &dbg_true);
+	scanf(" %d", &dbg_true);
 	if(dbg_true == 0)
 		printf("Custom debugging OFF\n\n");
 	else
