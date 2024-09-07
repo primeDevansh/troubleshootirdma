@@ -30,7 +30,7 @@ static char *src = NULL, *dst = NULL;
 //Custom debug function variable
 //Custom functions declared for irdma troubleshooting by Devansh
 static int dbg_true = 0; //static implements internal linkage.
-void dbg(char*, int);
+void dbg(char*);
 
 /* This is our testing function */
 static int check_src_dst() 

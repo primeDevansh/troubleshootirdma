@@ -28,7 +28,7 @@ static struct ibv_sge client_recv_sge, server_send_sge;
 //Custom debug function variable
 //Custom functions declared for irdma troubleshooting by Devansh
 static int dbg_true = 0; //static implements internal linkage.
-void dbg(char*, int);
+void dbg(char*);
 
 /* When we call this function cm_client_id must be set to a valid identifier.
  * This is where, we prepare client connection before we accept it. This 
