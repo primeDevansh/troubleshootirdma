@@ -515,7 +515,7 @@ int main(int argc, char **argv) {
 //by default, we aren't debugging
 void dbg(char *s) {
 	if(dbg_true) {
-		printf("%s -- Press Enter to continue", s);
+		printf("\033[0;30;43m%s -- Press Enter to continue\033[0m", s);
 		getc(stdin);
 	}
 	else
