@@ -25,6 +25,11 @@ static struct ibv_recv_wr client_recv_wr, *bad_client_recv_wr = NULL;
 static struct ibv_send_wr server_send_wr, *bad_server_send_wr = NULL;
 static struct ibv_sge client_recv_sge, server_send_sge;
 
+//Custom debug function variable
+//Custom functions declared for irdma troubleshooting by Devansh
+static int dbg_true = 0; //static implements internal linkage.
+void dbg(char*, int);
+
 /* When we call this function cm_client_id must be set to a valid identifier.
  * This is where, we prepare client connection before we accept it. This 
  * mainly involve pre-posting a receive buffer to receive client side 
@@ -429,11 +434,15 @@ void usage()
 	exit(1);
 }
 
-//Custom functions declared for irdma troubleshooting by Devansh
-void dbg(char*);
 
-int main(int argc, char **argv) 
-{
+int main(int argc, char **argv) {
+	printf("Turn on custom debugging? 0/1: ");
+	scanf("%d", &dbg_true);
+	if(dbg_true == 0)
+		printf("Custom debugging OFF\n\n");
+	else
+		printf("Custom debugging ON\n\n");
+
 	int ret, option;
 	struct sockaddr_in server_sockaddr;
 	bzero(&server_sockaddr, sizeof server_sockaddr);
@@ -503,8 +512,12 @@ int main(int argc, char **argv)
 
 //Custom functions defined for irdma troubleshooting by Devansh
 
+//by default, we aren't debugging
 void dbg(char *s) {
-	printf("%s -- Press Enter to continue", s);
-	getc(stdin);
-	return;
+	if(dbg_true) {
+		printf("%s -- Press Enter to continue", s);
+		getc(stdin);
+	}
+	else
+		return;
 }

@@ -27,6 +27,11 @@ static struct ibv_sge client_send_sge, server_recv_sge;
 /* Source and Destination buffers, where RDMA operations source and sink */
 static char *src = NULL, *dst = NULL; 
 
+//Custom debug function variable
+//Custom functions declared for irdma troubleshooting by Devansh
+static int dbg_true = 0; //static implements internal linkage.
+void dbg(char*, int);
+
 /* This is our testing function */
 static int check_src_dst() 
 {
@@ -461,9 +466,16 @@ void usage() {
 }
 
 //Custom functions declared for irdma troubleshooting by Devansh
-void dbg(char*);
+void dbg(char*, int);
 
 int main(int argc, char **argv) {
+	printf("Turn on custom debugging? 0/1: ");
+	scanf("%d", &dbg_true);
+	if(dbg_true == 0)
+		printf("Custom debugging OFF\n\n");
+	else
+		printf("Custom debugging ON\n\n");
+
 	struct sockaddr_in server_sockaddr;
 	int ret, option;
 	bzero(&server_sockaddr, sizeof server_sockaddr);
@@ -570,8 +582,11 @@ int main(int argc, char **argv) {
 
 //Custom functions defined for irdma troubleshooting by Devansh
 
-void dbg(char *s) {
-	printf("%s -- Press Enter to continue", s);
-	getc(stdin);
-	return;
+void dbg(char *s, int dbg_true) {
+	if(dbg_true) {
+		printf("%s -- Press Enter to continue", s);
+		getc(stdin);
+	}
+	else
+		return;
 }
