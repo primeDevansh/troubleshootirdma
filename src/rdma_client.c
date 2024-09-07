@@ -583,7 +583,7 @@ void dbg(char *s) {
 	char ch;
 	if(dbg_true) {
 		printf("\033[0;93;43m%s -- Press Enter to continue\033[0m", s);
-		scanf(" %c", &ch);
+		scanf("%c", &ch);
 	}
 	else
 		return;
