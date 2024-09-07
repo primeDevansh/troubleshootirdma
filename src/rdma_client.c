@@ -473,6 +473,7 @@ int main(int argc, char **argv) {
 	else
 		printf("Custom debugging ON\n\n");
 
+	dbg("Client-side code begins.");
 	struct sockaddr_in server_sockaddr;
 	int ret, option;
 	bzero(&server_sockaddr, sizeof server_sockaddr);
@@ -527,49 +528,49 @@ int main(int argc, char **argv) {
 		usage();
     }
 
-	dbg("From main(); Starting RDMA client - to allocate basic RDMA client-side connection resources.");
+	dbg("From main(); Start RDMA client - allocate basic RDMA client-side connection resources.");
 	ret = client_prepare_connection(&server_sockaddr);
 	if (ret) { 
 		rdma_error("Failed to setup client connection , ret = %d \n", ret);
 		return ret;
 	}
 
-	dbg("From main(); About to pre-post receive buffer before calling rdma_connect().");
+	dbg("From main(); Pre-post receive buffer before calling rdma_connect().");
 	ret = client_pre_post_recv_buffer(); 
 	if (ret) { 
 		rdma_error("Failed to setup client connection , ret = %d \n", ret);
 		return ret;
 	}
 
-	dbg("From main(); About to connect to RDMA server.");
+	dbg("From main(); Connect to RDMA server.");
 	ret = client_connect_to_server();
 	if (ret) { 
 		rdma_error("Failed to setup client connection , ret = %d \n", ret);
 		return ret;
 	}
 
-	dbg("From main(); About to exchange buffer metadata with the server");
+	dbg("From main(); Exchange buffer metadata with the server.");
 	ret = client_xchange_metadata_with_server();
 	if (ret) {
 		rdma_error("Failed to setup client connection , ret = %d \n", ret);
 		return ret;
 	}
 
-	dbg("From main(); About to prepare memory buffers for RDMA operation.");
+	dbg("From main(); Prepare memory buffers for RDMA operation.");
 	ret = client_remote_memory_ops();
 	if (ret) {
 		rdma_error("Failed to finish remote memory ops, ret = %d \n", ret);
 		return ret;
 	}
 
-	dbg("From main(); About to check data consistency.");
+	dbg("From main(); Check data consistency.");
 	if (check_src_dst()) {
 		rdma_error("src and dst buffers do not match \n");
 	} else {
 		printf("...\nSUCCESS, source and destination buffers match \n");
 	}
 
-	dbg("From main(); About to disconnect from RDMA server and initiate resource cleanup.");
+	dbg("From main(); Disconnect from RDMA server and initiate resource cleanup.");
 	ret = client_disconnect_and_clean();
 	if (ret) {
 		rdma_error("Failed to cleanly disconnect and clean up resources \n");
@@ -583,7 +584,7 @@ void dbg(char *s) {
 	char ch;
 	if(dbg_true) {
 		printf("\033[0;93;43m%s -- Press Enter to continue\033[0m", s);
-		scanf("%c", &ch);
+		scanf(" %c", &ch);
 	}
 	else
 		return;

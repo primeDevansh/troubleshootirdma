@@ -443,6 +443,7 @@ int main(int argc, char **argv) {
 	else
 		printf("Custom debugging ON\n\n");
 
+	dbg("Server-side program begins.");
 	int ret, option;
 	struct sockaddr_in server_sockaddr;
 	bzero(&server_sockaddr, sizeof server_sockaddr);
@@ -473,28 +474,28 @@ int main(int argc, char **argv) {
 		server_sockaddr.sin_port = htons(DEFAULT_RDMA_PORT); /* use default port */
 	}
 
-	dbg("From main(); Starting RDMA server - to allocate basic RDMA connection resources.");
+	dbg("From main(); Start RDMA server - to allocate basic RDMA connection resources.");
 	ret = start_rdma_server(&server_sockaddr);
 	if (ret) {
 		rdma_error("RDMA server failed to start cleanly, ret = %d \n", ret);
 		return ret;
 	}
 
-	dbg("From main(); Setting up client resources; to prepare client connection before we accept it.");
+	dbg("From main(); Set up client resources - pre-post a receive buffer to receive client side RDMA credentials.");
 	ret = setup_client_resources();
 	if (ret) { 
 		rdma_error("Failed to setup client resources, ret = %d \n", ret);
 		return ret;
 	}
 
-	dbg("From main(); About to accept client connection by pre-posting a receive buffer.");
+	dbg("From main(); Accept RDMA client connection.");
 	ret = accept_client_connection();
 	if (ret) {
 		rdma_error("Failed to handle client cleanly, ret = %d \n", ret);
 		return ret;
 	}
 
-	dbg("From main(); About to send server side buffer metadata to CONNECTED client.");
+	dbg("From main(); Send server side buffer metadata to CONNECTED client.");
 	ret = send_server_metadata_to_client();
 	if (ret) {
 		rdma_error("Failed to send server metadata to the client, ret = %d \n", ret);
@@ -517,7 +518,7 @@ void dbg(char *s) {
 	char ch;
 	if(dbg_true) {
 		printf("\033[0;93;43m%s -- Press Enter to continue\033[0m", s);
-		scanf("%c", &ch);
+		scanf(" %c", &ch);
 	}
 	else
 		return;
