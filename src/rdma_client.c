@@ -465,9 +465,6 @@ void usage() {
 	exit(1);
 }
 
-//Custom functions declared for irdma troubleshooting by Devansh
-void dbg(char*, int);
-
 int main(int argc, char **argv) {
 	printf("Turn on custom debugging? 0/1: ");
 	scanf("%d", &dbg_true);
