@@ -115,6 +115,7 @@ static int setup_client_resources()
        qp_init_attr.recv_cq = cq; /* Where should I notify for receive completion operations */
        qp_init_attr.send_cq = cq; /* Where should I notify for send completion operations */
        /*Lets create a QP */
+	   dbg("***Create QP***");
        ret = rdma_create_qp(cm_client_id /* which connection id */,
 		       pd /* which protection domain*/,
 		       &qp_init_attr /* Initial attributes */);

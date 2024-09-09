@@ -474,7 +474,7 @@ int main(int argc, char **argv) {
 		printf("Custom debugging ON\n\n");
 
 	//to dissolve extra input of \n from stdin
-	dbg("");
+	getc(stdin);
 	
 	struct sockaddr_in server_sockaddr;
 	int ret, option;
