@@ -52,6 +52,8 @@ static int setup_client_resources()
 	 * in the operating system. All resources are tied to a particular PD. 
 	 * And accessing recourses across PD will result in a protection fault.
 	 */
+
+	dbg("Allocate PD.");
 	pd = ibv_alloc_pd(cm_client_id->verbs 
 			/* verbs defines a verb's provider, 
 			 * i.e an RDMA device where the incoming 
@@ -61,6 +63,8 @@ static int setup_client_resources()
 				-errno);
 		return -errno;
 	}
+	dbg("PD Allocated successfully.");
+
 	debug("A new protection domain is allocated at %p \n", pd);
 	/* Now we need a completion channel, were the I/O completion 
 	 * notifications are sent. Remember, this is different from connection 
@@ -82,6 +86,8 @@ static int setup_client_resources()
 	 * information about the work completion. An I/O request in RDMA world 
 	 * is called "work" ;) 
 	 */
+
+	dbg("Create CQ.");
 	cq = ibv_create_cq(cm_client_id->verbs /* which device*/, 
 			CQ_CAPACITY /* maximum capacity*/, 
 			NULL /* user context, not used here */,
@@ -92,6 +98,8 @@ static int setup_client_resources()
 				-errno);
 		return -errno;
 	}
+	dbg("Completion queue created!");
+
 	debug("Completion queue (CQ) is created at %p with %d elements \n", 
 			cq, cq->cqe);
 	/* Ask for the event for all activities in the completion queue*/
@@ -123,6 +131,8 @@ static int setup_client_resources()
 	       rdma_error("Failed to create QP due to errno: %d\n", -errno);
 	       return -errno;
        }
+	dbg("***QP Created!***");
+
        /* Save the reference for handy typing but is not required */
        client_qp = cm_client_id->qp;
        debug("Client QP created at %p\n", client_qp);
