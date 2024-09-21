@@ -55,7 +55,7 @@ static int client_prepare_connection(struct sockaddr_in *s_addr)
 	 */
 	ret = rdma_create_id(cm_event_channel, &cm_client_id, 
 			NULL,
-			RDMA_PS_TCP);
+			RDMA_PS_IB);
 	if (ret) {
 		rdma_error("Creating cm id failed with errno: %d \n", -errno); 
 		return -errno;

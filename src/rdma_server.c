@@ -153,9 +153,9 @@ static int start_rdma_server(struct sockaddr_in *server_addr)
 	debug("RDMA CM event channel is created successfully at %p \n", 
 			cm_event_channel);
 	/* rdma_cm_id is the connection identifier (like socket) which is used 
-	 * to define an RDMA connection. 
+	 * to define an RDMA connection. //changinf RDMA_PS_TCP to RDMA_PS_IB
 	 */
-	ret = rdma_create_id(cm_event_channel, &cm_server_id, NULL, RDMA_PS_TCP);
+	ret = rdma_create_id(cm_event_channel, &cm_server_id, NULL, RDMA_PS_IB);
 	if (ret) {
 		rdma_error("Creating server cm id failed with errno: %d ", -errno);
 		return -errno;
